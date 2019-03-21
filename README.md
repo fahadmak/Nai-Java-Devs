@@ -1,3 +1,6 @@
+[![CircleCI](https://circleci.com/gh/fahadmak/Nai-Java-Devs.svg?style=svg)](https://circleci.com/gh/fahadmak/Nai-Java-Devs)
+[![codecov](https://codecov.io/gh/fahadmak/Nai-Java-Devs/branch/develop/graph/badge.svg)](https://codecov.io/gh/fahadmak/Nai-Java-Devs)
+[![Maintainability](https://api.codeclimate.com/v1/badges/4cac7ea6aca7421dc843/maintainability)](https://codeclimate.com/github/fahadmak/Nai-Java-Devs/maintainability)
 # Nai-Java-Devs
 A platform to find all Java Devs in Nairobi
 
