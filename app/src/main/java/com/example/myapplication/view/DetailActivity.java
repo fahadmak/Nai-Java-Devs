@@ -8,8 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.model.GithubUsers;
+import com.example.myapplication.model.GithubUsersResponse;
+import com.example.myapplication.presenter.GithubPresenter;
+import com.squareup.picasso.Picasso;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements SingleUserView {
 
     private static final String TAG = "DetailActivity";
 
@@ -23,18 +27,40 @@ public class DetailActivity extends AppCompatActivity {
 
         Bundle extras = intent.getExtras();
 
-        String username = extras.getString(MainActivity.USER_NAME);
+        String username = extras.getString("USERNAME");
 
+        GithubPresenter githubPresenter = new GithubPresenter();
+        githubPresenter.getUserProfile(username, this);
+
+    }
+
+
+    @Override
+    public void displaySingleProfile(GithubUsers githubUsers) {
         TextView usernameText = findViewById(R.id.username_info);
-        usernameText.setText(username);
+        usernameText.setText(githubUsers.getUsername());
 
         TextView nameText = findViewById(R.id.full_name);
-        nameText.setText(username);
+        nameText.setText(githubUsers.getFullName());
 
-        int imageResource = extras.getInt(MainActivity.IMAGE);
+        TextView companyText = findViewById(R.id.company_info);
+        companyText.setText(githubUsers.getCompany());
+
+        TextView bioText = findViewById(R.id.bio_data);
+        bioText.setText(githubUsers.getBio());
+
+        TextView urlText = findViewById(R.id.url_info);
+        urlText.setText(githubUsers.getUrl());
 
         ImageView imageView = findViewById(R.id.detail_image);
-        imageView.setImageResource(imageResource);
+        Picasso.get().load(githubUsers.getAvatar()).into(imageView);
+
+
+
+    }
+
+    @Override
+    public void displayError() {
 
     }
 }

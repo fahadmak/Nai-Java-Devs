@@ -1,64 +1,56 @@
 package com.example.myapplication.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.UsersAdapter;
+import com.example.myapplication.adapter.GithubUsersAdapter;
+import com.example.myapplication.model.GithubUsers;
+import com.example.myapplication.model.GithubUsersResponse;
+import com.example.myapplication.presenter.GithubPresenter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AllUsersView {
 
     public static final String USER_NAME = "com.example.myapplication.USERNAME";
     public static final String IMAGE = "com.example.myapplication.IMAGE";
-
-
-    String[] usernameArray = {
-            "Paul", "Fahad", "Emmy", "Richo",
-            "Kale", "Kaihura", "popcaan", "vybz"
-    };
-    Integer[] imageIdArray = {
-            R.drawable.person1,
-            R.drawable.person3,
-            R.drawable.person2,
-            R.drawable.person4,
-            R.drawable.person5,
-            R.drawable.person6,
-            R.drawable.person7,
-            R.drawable.person8
-    };
-    ListView listView;
+    private static final String TAG = "MainActivity";
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        UsersAdapter usersAdapter = new UsersAdapter(this, usernameArray, imageIdArray);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        listView = findViewById(R.id.list_view_id);
+        GithubPresenter githubPresenter = new GithubPresenter();
 
-        listView.setAdapter(usersAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-
-                String username = usernameArray[position];
-                intent.putExtra(USER_NAME, username);
-
-                Integer image = imageIdArray[position];
-                intent.putExtra(IMAGE, image);
-
-                startActivity(intent);
-            }
-        });
+        githubPresenter.getAllUserProfiles(this);
 
     }
+
+    @Override
+    public void displayUserProfiles(GithubUsersResponse response) {
+        Log.d(TAG, "displayUserProfiles: jowe" + response.getUsers());
+
+        for(GithubUsers user: response.getUsers()){
+            Log.d(TAG, " " + user.getUsername() + " " + user.getUrl());
+        }
+        GithubUsersAdapter githubUsersAdapter = new GithubUsersAdapter(response.getUsers());
+        recyclerView.setAdapter(githubUsersAdapter);
+
+    }
+
+    @Override
+    public void displayError() {
+        Log.d(TAG, "displayUserProfiles: fahad");
+        Toast.makeText(MainActivity.this, "krava", Toast.LENGTH_SHORT).show();
+    }
+
 }
