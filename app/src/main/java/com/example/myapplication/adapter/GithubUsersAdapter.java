@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +13,13 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 import com.example.myapplication.model.GithubUsers;
 import com.example.myapplication.view.DetailActivity;
-import com.example.myapplication.view.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class GithubUsersAdapter extends RecyclerView.Adapter<GithubUsersAdapter.ViewHolder>{
+public class GithubUsersAdapter extends RecyclerView.Adapter<GithubUsersAdapter.ViewHolder> {
 
-    private List<GithubUsers> usersArray;
-    private static final String TAG = "GithubUsersAdapter";
+    List<GithubUsers> usersArray;
 
     public GithubUsersAdapter(List<GithubUsers> usersArray) {
         this.usersArray = usersArray;
@@ -36,7 +33,8 @@ public class GithubUsersAdapter extends RecyclerView.Adapter<GithubUsersAdapter.
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(R.layout.list_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder;
+        viewHolder = new ViewHolder(view);
 
         return viewHolder;
     }
@@ -49,12 +47,14 @@ public class GithubUsersAdapter extends RecyclerView.Adapter<GithubUsersAdapter.
         TextView textView = viewHolder.view.findViewById(R.id.profile_name);
         textView.setText(githubUser.getUsername());
         ImageView imageView = viewHolder.view.findViewById(R.id.profile_image);
-        Picasso.get().load(usersArray.get(viewHolder.getAdapterPosition()).getAvatar()).into(imageView);
+        Picasso.get()
+                .load(usersArray.get(viewHolder.getAdapterPosition()).getAvatar()).into(imageView);
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), DetailActivity.class);
-                intent.putExtra("USERNAME", usersArray.get(viewHolder.getAdapterPosition()).getUsername());
+                intent.putExtra("USERNAME",
+                        usersArray.get(viewHolder.getAdapterPosition()).getUsername());
                 v.getContext().startActivity(intent);
             }
         });
@@ -67,7 +67,6 @@ public class GithubUsersAdapter extends RecyclerView.Adapter<GithubUsersAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        
         public View view;
 
         public ViewHolder(@NonNull View view) {
@@ -77,5 +76,4 @@ public class GithubUsersAdapter extends RecyclerView.Adapter<GithubUsersAdapter.
         }
 
     }
-    
 }

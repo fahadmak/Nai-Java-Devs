@@ -5,29 +5,31 @@ import com.google.gson.annotations.SerializedName;
 public class GithubUsers {
 
     @SerializedName("login")
-    private String username;
+    private final String username;
 
     @SerializedName("avatar_url")
-    private String avatar;
-
+    private final String avatar;
 
     @SerializedName("url")
-    private String url;
+    private final String url;
 
     @SerializedName("name")
-    private String fullName;
+    private final String fullName;
 
     @SerializedName("company")
-    private String company;
+    private final String company;
 
     @SerializedName("bio")
-    private String bio;
+    private final String bio;
 
-    public GithubUsers(String username, String avatar, String url, String fullName) {
+    public GithubUsers(String username, String avatar, String url, String fullName,
+                       String company, String bio) {
         this.username = username;
         this.avatar = avatar;
         this.url = url;
         this.fullName = fullName;
+        this.company = company;
+        this.bio = bio;
     }
 
     public String getUrl() {

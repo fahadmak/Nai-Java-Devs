@@ -27,16 +27,17 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.share_item_menu:
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this awesome developer " +
-                        "@" + mGithubUsers.getUsername() + ", " + mGithubUsers.getUrl() + ".");
-                startActivity(Intent.createChooser(shareIntent, "Share via"));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int i = item.getItemId();
+        if (i == R.id.share_item_menu) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this awesome developer "
+                    +
+                    "@" + mGithubUsers.getUsername() + ", " + mGithubUsers.getUrl() + ".");
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -79,11 +80,6 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
 
         ImageView imageView = findViewById(R.id.detail_image);
         Picasso.get().load(githubUsers.getAvatar()).into(imageView);
-
-    }
-
-    @Override
-    public void displayError() {
 
     }
 }

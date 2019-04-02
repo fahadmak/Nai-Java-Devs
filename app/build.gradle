@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply from: rootProject.file('config/quality.gradle')
+apply from: rootProject.file('gradle/git_hooks.gradle')
 
 android {
     compileSdkVersion 28
