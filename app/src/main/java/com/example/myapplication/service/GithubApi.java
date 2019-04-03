@@ -9,9 +9,10 @@ import retrofit2.http.Path;
 
 public interface GithubApi {
 
-    @GET("search/users?q=type:User+location:Nairobi+language:JAVA")
+    @GET("search/users?q=type:User+location:Nairobi+language:JAVA"
+            + "?access_token=7b2b9b477a57d613ea8852adbfb204bd64d7bd8d")
     Call<GithubUsersResponse> getAllUsers();
 
-    @GET("users/{username}")
+    @GET("users/{username}?access_token=7b2b9b477a57d613ea8852adbfb204bd64d7bd8d")
     Call<GithubUsers> getSingleUser(@Path("username") String username);
 }

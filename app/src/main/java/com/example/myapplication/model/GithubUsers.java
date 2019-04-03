@@ -1,8 +1,11 @@
 package com.example.myapplication.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class GithubUsers {
+public class GithubUsers implements Parcelable {
 
     @SerializedName("login")
     private final String username;
@@ -32,6 +35,27 @@ public class GithubUsers {
         this.bio = bio;
     }
 
+    protected GithubUsers(Parcel in) {
+        username = in.readString();
+        avatar = in.readString();
+        url = in.readString();
+        fullName = in.readString();
+        company = in.readString();
+        bio = in.readString();
+    }
+
+    public static final Creator<GithubUsers> CREATOR = new Creator<GithubUsers>() {
+        @Override
+        public GithubUsers createFromParcel(Parcel in) {
+            return new GithubUsers(in);
+        }
+
+        @Override
+        public GithubUsers[] newArray(int size) {
+            return new GithubUsers[size];
+        }
+    };
+
     public String getUrl() {
         return url;
     }
@@ -54,5 +78,20 @@ public class GithubUsers {
 
     public String getBio() {
         return bio;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(username);
+        dest.writeString(avatar);
+        dest.writeString(url);
+        dest.writeString(fullName);
+        dest.writeString(company);
+        dest.writeString(bio);
     }
 }

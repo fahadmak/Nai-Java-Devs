@@ -47,14 +47,19 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
 
         setContentView(R.layout.activity_detail);
 
-        Intent intent = getIntent();
+        if (savedInstanceState != null) {
+            mGithubUsers = savedInstanceState.getParcelable("user");
+            loadProfile(mGithubUsers);
+        } else {
+            Intent intent = getIntent();
 
-        Bundle extras = intent.getExtras();
+            Bundle extras = intent.getExtras();
 
-        String username = extras.getString("USERNAME");
+            String username = extras.getString("USERNAME");
 
-        GithubPresenter githubPresenter = new GithubPresenter();
-        githubPresenter.getUserProfile(username, this);
+            GithubPresenter githubPresenter = new GithubPresenter();
+            githubPresenter.getUserProfile(username, this);
+        }
 
     }
 
@@ -63,6 +68,11 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
     public void displaySingleProfile(GithubUsers githubUsers) {
 
         mGithubUsers = githubUsers;
+        loadProfile(mGithubUsers);
+
+    }
+
+    public void loadProfile(GithubUsers githubUsers) {
         TextView usernameText = findViewById(R.id.username_info);
         usernameText.setText(githubUsers.getUsername());
 
@@ -80,6 +90,18 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
 
         ImageView imageView = findViewById(R.id.detail_image);
         Picasso.get().load(githubUsers.getAvatar()).into(imageView);
-
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("user", mGithubUsers);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        mGithubUsers = savedInstanceState.getParcelable("user");
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
 }
