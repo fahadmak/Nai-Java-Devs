@@ -9,4 +9,5 @@
     <string name="company_label">Company</string>
     <string name="company">Geo Mobile Ltd</string>
     <string name="bio_label">Bio</string>
+    <string name="share_title">Share</string>
 </resources>

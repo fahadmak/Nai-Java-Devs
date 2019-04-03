@@ -1,0 +1,70 @@
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+checkstyle {
+    toolVersion = '6.9'
+}
+
+task checkstyle(type: Checkstyle) {
+    description 'Improve coding standard and verify source code for coding conventions'
+    group 'verification'
+    configFile file("${project.rootDir}/config/quality/checkstyle.xml")
+    source fileTree('src/main/java')
+    include '**/*.java'
+    exclude '**/gen/**'
+    classpath = files()
+    showViolations true
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        html.destination = "$project.buildDir/outputs/checkstyle/checkstyle.html"
+    }
+}
+
+task findbugs(type: FindBugs) {
+    description 'Analyze java byte code.'
+    group 'verification'
+    excludeFilter = file("$project.rootDir/config/quality/findbugs.xml")
+    classes = fileTree("$project.buildDir/intermediates/javac/debug/compileDebugJavaWithJavac/classes")
+    source = fileTree('src/main/java')
+    effort 'max'
+    reportLevel = "high"
+    classpath = files()
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html.destination = "$project.buildDir/outputs/findbugs/findbugs.html"
+    }
+}
+
+task pmd(type: Pmd) {
+    description 'Analyze abstract syntax tree, identify dead and duplicated code'
+    group 'verification'
+    ruleSetFiles = files("$project.rootDir/config/quality/pmd.xml")
+    source = fileTree('src/main/java')
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html.destination = "$project.buildDir/outputs/pmd/pmd.html"
+    }
+}
+
+android {
+    lintOptions {
+        abortOnError false
+        check 'Interoperability'
+        quiet true
+        lintConfig file("$project.rootDir/config/quality/rules_lint.xml")
+
+        htmlReport true
+        htmlOutput file("$project.buildDir/outputs/lint/rules_lint.xml")
+    }
+}
+
+check.dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'

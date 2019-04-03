@@ -1,7 +1,5 @@
 package com.example.myapplication.service;
 
-import android.util.Log;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -14,7 +12,7 @@ public class GithubService {
 
     private static Retrofit retrofit = builder.build();
 
-    public GithubApi getAPI(){
+    public GithubApi getAPI() {
         return retrofit.create(GithubApi.class);
     }
 }

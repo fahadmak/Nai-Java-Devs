@@ -8,14 +8,14 @@ import java.util.List;
 public class GithubUsersResponse {
 
     @SerializedName("items")
-    private List<GithubUsers> githubUsers;
+    private final List<GithubUsers> githubUsers;
 
     public GithubUsersResponse() {
 
         githubUsers = new ArrayList<GithubUsers>();
     }
 
-    public List<GithubUsers> getUsers() {
+    public final List<GithubUsers> getUsers() {
         return githubUsers;
     }
 }
