@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: rootProject.file('app/coverage.gradle')
 apply from: rootProject.file('config/quality.gradle')
 apply from: rootProject.file('gradle/git_hooks.gradle')
 
@@ -19,6 +20,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            testCoverageEnabled true
+        }
     }
 }
 
@@ -30,10 +34,20 @@ dependencies {
     implementation "com.android.support:animated-vector-drawable:$globalConf.supportLibraryVersion"
     implementation "com.android.support:exifinterface:$globalConf.supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$globalConf.supportLibraryVersion"
-    implementation "de.hdodenhof:circleimageview:$globalConf.circleImageViewVesrion"
+    implementation "de.hdodenhof:circleimageview:$globalConf.circleImageViewVersion"
     implementation "com.squareup.retrofit2:retrofit:$globalConf.retrofitVersion"
     implementation "com.squareup.picasso:picasso:$globalConf.picassoVersion"
     implementation "com.squareup.retrofit2:converter-gson:$globalConf.retrofitVersion"
     implementation "com.android.support:support-v4:$globalConf.supportLibraryVersion"
+    implementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
     testImplementation 'junit:junit:4.12'
+
+    // Android Testing Support Library's runner and rules
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
+    androidTestImplementation "com.android.support.test:rules:1.0.2"
+
+    // Espresso UI Testing dependencies.
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:3.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:3.0.2"
 }

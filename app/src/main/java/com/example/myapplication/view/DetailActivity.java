@@ -3,7 +3,10 @@ package com.example.myapplication.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -16,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity implements SingleUserView {
 
+    private static final String TAG = "frill";
+    CountingIdlingResource mDetailResource = new CountingIdlingResource("Detail");
     private GithubUsers mGithubUsers;
 
     @Override
@@ -54,11 +59,20 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
             Intent intent = getIntent();
 
             Bundle extras = intent.getExtras();
+            Log.d(TAG, "onCreate: @here" + extras);
 
             String username = extras.getString("USERNAME");
+            String avatar = extras.getString("AVATAR");
+
+            TextView usernameText = findViewById(R.id.username_info);
+            usernameText.setText(username);
+
+            ImageView imageView = findViewById(R.id.detail_image);
+            Picasso.get().load(avatar).into(imageView);
 
             GithubPresenter githubPresenter = new GithubPresenter();
             githubPresenter.getUserProfile(username, this);
+            mDetailResource.increment();
         }
 
     }
@@ -73,8 +87,6 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
     }
 
     public void loadProfile(GithubUsers githubUsers) {
-        TextView usernameText = findViewById(R.id.username_info);
-        usernameText.setText(githubUsers.getUsername());
 
         TextView nameText = findViewById(R.id.full_name);
         nameText.setText(githubUsers.getFullName());
@@ -88,8 +100,7 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
         TextView urlText = findViewById(R.id.url_info);
         urlText.setText(githubUsers.getUrl());
 
-        ImageView imageView = findViewById(R.id.detail_image);
-        Picasso.get().load(githubUsers.getAvatar()).into(imageView);
+        mDetailResource.decrement();
     }
 
     @Override
@@ -104,4 +115,8 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+    @VisibleForTesting
+    public CountingIdlingResource getIdlingResourceInTest() {
+        return mDetailResource;
+    }
 }
