@@ -7,6 +7,7 @@ def globalConf = rootProject.ext
 
 android {
     compileSdkVersion 28
+    testOptions.unitTests.includeAndroidResources = true
     defaultConfig {
         applicationId "com.example.myapplication"
         minSdkVersion 15
@@ -39,15 +40,20 @@ dependencies {
     implementation "com.squareup.picasso:picasso:$globalConf.picassoVersion"
     implementation "com.squareup.retrofit2:converter-gson:$globalConf.retrofitVersion"
     implementation "com.android.support:support-v4:$globalConf.supportLibraryVersion"
-    implementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
-    testImplementation 'junit:junit:4.12'
+    implementation "com.android.support.test.espresso:espresso-idling-resource:" +
+            "$globalConf.espressoVersion"
+    testImplementation "junit:junit:$globalConf.junitVersion"
+    testImplementation "org.robolectric:robolectric:$globalConf.robolectricVersion"
 
     // Android Testing Support Library's runner and rules
     androidTestImplementation "com.android.support.test:runner:1.0.2"
     androidTestImplementation "com.android.support.test:rules:1.0.2"
 
     // Espresso UI Testing dependencies.
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:3.0.2"
-    androidTestImplementation "com.android.support.test.espresso:espresso-intents:3.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:" +
+            "$globalConf.espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:" +
+            "$globalConf.espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:" +
+            "$globalConf.espressoVersion"
 }

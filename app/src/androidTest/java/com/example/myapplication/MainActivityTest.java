@@ -42,11 +42,6 @@ public class MainActivityTest {
         }
     }
 
-//    @Test
-//    public void loadingProgressDialogShown() {
-//        onView(withId(R.id.indeterminateBar)).check(matches(isDisplayed()));
-//    }
-
     @Test
     public void swipeToRefreshShown() {
         registerIdlingResource();

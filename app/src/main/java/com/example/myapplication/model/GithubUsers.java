@@ -35,7 +35,7 @@ public class GithubUsers implements Parcelable {
         this.bio = bio;
     }
 
-    protected GithubUsers(Parcel in) {
+    public GithubUsers(Parcel in) {
         username = in.readString();
         avatar = in.readString();
         url = in.readString();
