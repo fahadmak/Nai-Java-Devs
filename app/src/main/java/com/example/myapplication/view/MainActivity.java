@@ -3,6 +3,8 @@ package com.example.myapplication.view;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,9 +25,13 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
 
     SwipeRefreshLayout swipeRefreshLayout;
     Parcelable listState;
+    CountingIdlingResource
+            mCountingIdlingResource = new CountingIdlingResource("DATA LOADER");
+    ProgressBar progressBar;
     private RecyclerView recyclerView;
     private List<GithubUsers> githubUsers;
-    ProgressBar progressBar;
+    private static final String GITHUB_USERS = "GITHUB_USERS";
+    private static final String LIST_STATE = "LIST_STATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +48,9 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
         } else {
             gridSize(3);
         }
-
         if (savedInstanceState != null) {
-            githubUsers = savedInstanceState.getParcelableArrayList("users");
-            listState = savedInstanceState.getParcelable("listState");
+            githubUsers = savedInstanceState.getParcelableArrayList(GITHUB_USERS);
+            listState = savedInstanceState.getParcelable(LIST_STATE);
         } else {
             refreshData();
         }
@@ -65,9 +70,9 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
     }
 
     void refreshData() {
+        mCountingIdlingResource.increment();
         GithubPresenter githubPresenter = new GithubPresenter();
         githubPresenter.getAllUserProfiles(this);
-
     }
 
 
@@ -76,26 +81,29 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
         githubUsers = response.getUsers();
         loadData(githubUsers);
     }
-
+//
     void loadData(List<GithubUsers> users) {
         progressBar = findViewById(R.id.indeterminateBar);
         progressBar.setVisibility(View.INVISIBLE);
         swipeRefreshLayout.setRefreshing(false);
         GithubUsersAdapter githubUsersAdapter = new GithubUsersAdapter(users);
         recyclerView.setAdapter(githubUsersAdapter);
+        mCountingIdlingResource.decrement();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("users", (ArrayList<? extends Parcelable>) githubUsers);
-        outState.putParcelable("listState", recyclerView.getLayoutManager().onSaveInstanceState());
+        outState.putParcelableArrayList(GITHUB_USERS,
+                (ArrayList<? extends Parcelable>) githubUsers);
+        outState.putParcelable(LIST_STATE,
+                recyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        githubUsers = savedInstanceState.getParcelableArrayList("users");
-        listState = savedInstanceState.getParcelable("listState");
+        githubUsers = savedInstanceState.getParcelableArrayList(GITHUB_USERS);
+        listState = savedInstanceState.getParcelable(LIST_STATE);
         super.onRestoreInstanceState(savedInstanceState);
     }
 
@@ -106,6 +114,11 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
             recyclerView.getLayoutManager().onRestoreInstanceState(listState);
             loadData(githubUsers);
         }
+    }
+
+    @VisibleForTesting
+    public CountingIdlingResource getIdlingResourceInTest() {
+        return mCountingIdlingResource;
     }
 
 }
