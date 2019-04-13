@@ -1,7 +1,7 @@
-package com.example.myapplication.service;
+package com.nai.devs.service;
 
-import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.model.GithubUsersResponse;
+import com.nai.devs.model.GithubUsers;
+import com.nai.devs.model.GithubUsersResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

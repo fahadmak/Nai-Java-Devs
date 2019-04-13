@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.nai.devs;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.example.myapplication.service;
+package com.nai.devs.service;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

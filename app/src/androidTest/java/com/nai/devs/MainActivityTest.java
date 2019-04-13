@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.nai.devs;
 
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.idling.CountingIdlingResource;
@@ -6,7 +6,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.example.myapplication.view.MainActivity;
+import com.nai.devs.view.MainActivity;
 
 import org.junit.After;
 import org.junit.Rule;

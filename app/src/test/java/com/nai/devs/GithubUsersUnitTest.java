@@ -1,9 +1,9 @@
-package com.example.myapplication;
+package com.nai.devs;
 
 
 import android.os.Parcel;
 
-import com.example.myapplication.model.GithubUsers;
+import com.nai.devs.model.GithubUsers;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(RobolectricTestRunner.class)
 public class GithubUsersUnitTest {
 
-    GithubUsers githubUsers;
+    private GithubUsers githubUsers;
 
     @Before
     public void setUp(){

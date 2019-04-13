@@ -1,10 +1,10 @@
-package com.example.myapplication.presenter;
+package com.nai.devs.presenter;
 
-import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.model.GithubUsersResponse;
-import com.example.myapplication.service.GithubService;
-import com.example.myapplication.view.AllUsersView;
-import com.example.myapplication.view.SingleUserView;
+import com.nai.devs.model.GithubUsers;
+import com.nai.devs.model.GithubUsersResponse;
+import com.nai.devs.service.GithubService;
+import com.nai.devs.view.AllUsersView;
+import com.nai.devs.view.SingleUserView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,7 +12,7 @@ import retrofit2.Response;
 
 public class GithubPresenter {
 
-    GithubService githubService;
+    private final GithubService githubService;
 
     public GithubPresenter() {
         this.githubService = new GithubService();

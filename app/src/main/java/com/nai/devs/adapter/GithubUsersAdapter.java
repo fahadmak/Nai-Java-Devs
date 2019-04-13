@@ -1,4 +1,4 @@
-package com.example.myapplication.adapter;
+package com.nai.devs.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.myapplication.R;
-import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.view.DetailActivity;
+import com.nai.devs.R;
+import com.nai.devs.model.GithubUsers;
+import com.nai.devs.view.DetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
