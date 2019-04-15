@@ -83,7 +83,7 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
 
         mGithubUsers = githubUsers;
         loadProfile(mGithubUsers);
-
+        mDetailResource.decrement();
     }
 
     public void loadProfile(GithubUsers githubUsers) {
@@ -100,7 +100,6 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
         TextView urlText = findViewById(R.id.url_info);
         urlText.setText(githubUsers.getUrl());
 
-        mDetailResource.decrement();
     }
 
     @Override

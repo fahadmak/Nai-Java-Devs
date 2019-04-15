@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
                 GridLayoutManager.VERTICAL, false));
     }
 
-    void refreshData() {
+    public void refreshData() {
         mCountingIdlingResource.increment();
         GithubPresenter githubPresenter = new GithubPresenter();
         githubPresenter.getAllUserProfiles(this);
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
     public void displayUserProfiles(GithubUsersResponse response) {
         githubUsers = response.getUsers();
         loadData(githubUsers);
+        mCountingIdlingResource.decrement();
     }
 //
     void loadData(List<GithubUsers> users) {
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
         swipeRefreshLayout.setRefreshing(false);
         GithubUsersAdapter githubUsersAdapter = new GithubUsersAdapter(users);
         recyclerView.setAdapter(githubUsersAdapter);
-        mCountingIdlingResource.decrement();
     }
 
     @Override
