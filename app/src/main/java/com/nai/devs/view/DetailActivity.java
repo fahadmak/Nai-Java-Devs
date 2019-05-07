@@ -1,4 +1,4 @@
-package com.example.myapplication.view;
+package com.nai.devs.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.myapplication.R;
-import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.presenter.GithubPresenter;
+import com.nai.devs.R;
+import com.nai.devs.model.GithubUsers;
+import com.nai.devs.presenter.GithubPresenter;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity implements SingleUserView {

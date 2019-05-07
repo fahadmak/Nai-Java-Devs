@@ -1,9 +1,12 @@
-package com.example.myapplication.view;
+package com.nai.devs.view;
 
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.VisibleForTesting;
+import android.support.design.widget.Snackbar;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,16 +15,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.example.myapplication.R;
-import com.example.myapplication.adapter.GithubUsersAdapter;
-import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.model.GithubUsersResponse;
-import com.example.myapplication.presenter.GithubPresenter;
+import com.nai.devs.R;
+import com.nai.devs.adapter.GithubUsersAdapter;
+import com.nai.devs.model.GithubUsers;
+import com.nai.devs.model.GithubUsersResponse;
+import com.nai.devs.presenter.GithubPresenter;
+import com.nai.devs.util.NetworkListener;
+import com.nai.devs.util.NetworkUtility;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AllUsersView {
+public class MainActivity extends AppCompatActivity implements AllUsersView, NetworkListener {
 
     SwipeRefreshLayout swipeRefreshLayout;
     Parcelable listState;
@@ -32,15 +37,20 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
     private List<GithubUsers> githubUsers;
     private static final String GITHUB_USERS = "GITHUB_USERS";
     private static final String LIST_STATE = "LIST_STATE";
+    private final NetworkUtility networkUtility = new NetworkUtility(this);
+    IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+    private Snackbar snackbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.registerReceiver(networkUtility, filter);
+
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             gridSize(2);
@@ -61,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
                 refreshData();
             }
         });
-
     }
 
     private void gridSize(int size) {
@@ -119,6 +128,22 @@ public class MainActivity extends AppCompatActivity implements AllUsersView {
     @VisibleForTesting
     public CountingIdlingResource getIdlingResourceInTest() {
         return mCountingIdlingResource;
+    }
+
+    @Override
+    public void withInternet() {
+        if (snackbar != null) {
+            Snackbar.make(findViewById(R.id.indeterminateBar),
+                    "Connected to the internet", 3000).show();
+            refreshData();
+        }
+    }
+
+    @Override
+    public void noInternet() {
+        snackbar = Snackbar.make(findViewById(R.id.indeterminateBar),
+                "No internet connection", Snackbar.LENGTH_INDEFINITE);
+        snackbar.show();
     }
 
 }

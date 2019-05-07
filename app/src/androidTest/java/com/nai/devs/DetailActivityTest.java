@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.nai.devs;
 
 import android.content.Intent;
 import android.support.test.espresso.IdlingRegistry;
@@ -6,8 +6,8 @@ import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.view.DetailActivity;
+import com.nai.devs.model.GithubUsers;
+import com.nai.devs.view.DetailActivity;
 
 import org.junit.After;
 import org.junit.Before;

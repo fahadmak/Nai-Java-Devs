@@ -1,4 +1,4 @@
-package com.example.myapplication.model;
+package com.nai.devs.model;
 
 import com.google.gson.annotations.SerializedName;
 

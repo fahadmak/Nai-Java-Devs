@@ -9,7 +9,7 @@ android {
     compileSdkVersion 28
     testOptions.unitTests.includeAndroidResources = true
     defaultConfig {
-        applicationId "com.example.myapplication"
+        applicationId "com.nai.devs"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -33,7 +33,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$globalConf.supportLibraryVersion"
     implementation "com.android.support:animated-vector-drawable:$globalConf.supportLibraryVersion"
-    implementation "com.android.support:exifinterface:$globalConf.supportLibraryVersion"
+    implementation "com.android.support:exifinterface:28.0.0"
     implementation "com.android.support:recyclerview-v7:$globalConf.supportLibraryVersion"
     implementation "de.hdodenhof:circleimageview:$globalConf.circleImageViewVersion"
     implementation "com.squareup.retrofit2:retrofit:$globalConf.retrofitVersion"

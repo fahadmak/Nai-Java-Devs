@@ -1,14 +1,14 @@
-package com.example.myapplication;
+package com.nai.devs;
 
-import com.example.myapplication.service.GithubApi;
-import com.example.myapplication.service.GithubService;
+import com.nai.devs.service.GithubApi;
+import com.nai.devs.service.GithubService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 
 @RunWith(RobolectricTestRunner.class)
