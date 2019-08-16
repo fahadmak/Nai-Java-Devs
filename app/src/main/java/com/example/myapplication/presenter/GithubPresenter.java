@@ -1,56 +1,36 @@
 package com.example.myapplication.presenter;
 
-import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.model.GithubUsersResponse;
 import com.example.myapplication.service.GithubService;
 import com.example.myapplication.view.AllUsersView;
 import com.example.myapplication.view.SingleUserView;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class GithubPresenter {
 
     GithubService githubService;
+    Disposable disposable;
 
     public GithubPresenter() {
         this.githubService = new GithubService();
     }
 
     public void getAllUserProfiles(final AllUsersView allUsersView) {
-        githubService.getAPI().getAllUsers().enqueue(new Callback<GithubUsersResponse>() {
-            @Override
-            public void onResponse(Call<GithubUsersResponse> call,
-                                   Response<GithubUsersResponse> response) {
-                allUsersView.displayUserProfiles(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<GithubUsersResponse> call, Throwable t) {
-                displayError();
-            }
-        });
+        disposable = githubService.getAPI().getAllUsers()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(githubUsersResponse ->
+                        allUsersView.displayUserProfiles(githubUsersResponse)
+                    );
     }
 
     public void getUserProfile(String username, final SingleUserView singleUserView) {
-        githubService.getAPI().getSingleUser(username).enqueue(new Callback<GithubUsers>() {
-            @Override
-            public void onResponse(Call<GithubUsers> call, Response<GithubUsers> response) {
-                singleUserView.displaySingleProfile(response.body());
-            }
 
-            @Override
-            public void onFailure(Call<GithubUsers> call, Throwable t) {
-                displayError();
-            }
-        });
+        disposable = githubService.getAPI().getSingleUser(username).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                        githubUsers -> singleUserView.displaySingleProfile(githubUsers));
     }
 
-    public void displayError() {
-        try {
-            throw new InterruptedException("Something went wrong!");
-        } catch (InterruptedException e) {
-        }
-    }
 }
