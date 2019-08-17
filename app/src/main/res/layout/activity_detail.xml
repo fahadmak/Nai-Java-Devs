@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.DetailActivity">
+    tools:context=".profile.DetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="5dp"
-                android:src="@mipmap/ic_launcher_round"
+                tools:src="@tools:sample/avatars"
                 app:civ_border_color="#FFFF"
                 app:civ_border_width="4dp" />
 
@@ -38,8 +38,8 @@
                 android:layout_below="@id/detail_image"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="9dp"
-                android:text="@string/name"
                 android:textAlignment="center"
+                tools:text="@tools:sample/first_names"
                 android:textColor="#FFFF"
                 android:textSize="30sp" />
         </RelativeLayout>
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:text="@string/username"
+                tools:text="@tools:sample/last_names"
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:text="@string/url"
+                tools:text="@tools:sample/cities"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="17sp" />
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:text="@string/company"
+                tools:text="@tools:sample/lorem"
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
@@ -125,7 +125,7 @@
                 android:maxLines="3"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
-                android:text="@string/bio"
+                tools:text="@tools:sample/lorem/random"
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
