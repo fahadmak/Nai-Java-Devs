@@ -22,7 +22,7 @@ public class GithubUsersUnitTest {
     @Before
     public void setUp(){
         githubUsers = new GithubUsers("username", "avatar",
-                "ggogle.com", "maka bugo", "frank", "bully");
+                "ggogle.com", "htmlUrl", "maka bugo", "frank", "bully");
     }
 
     @Test

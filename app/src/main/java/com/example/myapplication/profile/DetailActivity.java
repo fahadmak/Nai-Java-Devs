@@ -1,4 +1,4 @@
-package com.example.myapplication.view;
+package com.example.myapplication.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +14,16 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.presenter.GithubPresenter;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity implements SingleUserView {
 
     private static final String TAG = "frill";
-    CountingIdlingResource mDetailResource = new CountingIdlingResource("Detail");
     private GithubUsers mGithubUsers;
+    SingleUserPresenter singleUserPresenter = new SingleUserPresenter();
+    String username = null;
+    String avatar = null;
+    String htmlUrl = null;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,55 +53,50 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detail);
+        singleUserPresenter.attachView(this);
+        Log.d(TAG, "onCreate: " + singleUserPresenter);
 
         if (savedInstanceState != null) {
             mGithubUsers = savedInstanceState.getParcelable("user");
-            loadProfile(mGithubUsers);
+            displaySingleUser(mGithubUsers);
         } else {
             Intent intent = getIntent();
 
             Bundle extras = intent.getExtras();
-            Log.d(TAG, "onCreate: @here" + extras);
 
-            String username = extras.getString("USERNAME");
-            String avatar = extras.getString("AVATAR");
+            if (extras != null) {
+                username = extras.getString("USERNAME");
+                avatar = extras.getString("AVATAR");
+                htmlUrl = extras.getString("HTML_URL");
+            }
 
-            TextView usernameText = findViewById(R.id.username_info);
-            usernameText.setText(username);
-
-            ImageView imageView = findViewById(R.id.detail_image);
-            Picasso.get().load(avatar).into(imageView);
-
-            GithubPresenter githubPresenter = new GithubPresenter();
-            githubPresenter.getUserProfile(username, this);
-            mDetailResource.increment();
+            singleUserPresenter.fetchSingleUsers(username);
         }
 
     }
 
 
     @Override
-    public void displaySingleProfile(GithubUsers githubUsers) {
+    public void displaySingleUser(GithubUsers githubUsers) {
 
-        mGithubUsers = githubUsers;
-        loadProfile(mGithubUsers);
-        mDetailResource.decrement();
-    }
-
-    public void loadProfile(GithubUsers githubUsers) {
-
-        TextView nameText = findViewById(R.id.full_name);
-        nameText.setText(githubUsers.getFullName());
-
-        TextView companyText = findViewById(R.id.company_info);
-        companyText.setText(githubUsers.getCompany());
-
-        TextView bioText = findViewById(R.id.bio_data);
-        bioText.setText(githubUsers.getBio());
+        TextView usernameText = findViewById(R.id.username_info);
+        usernameText.setText(username);
 
         TextView urlText = findViewById(R.id.url_info);
-        urlText.setText(githubUsers.getUrl());
+        urlText.setText(htmlUrl);
 
+        ImageView imageView = findViewById(R.id.detail_image);
+        Picasso.get().load(avatar).into(imageView);
+
+        mGithubUsers = githubUsers;
+        TextView nameText = findViewById(R.id.full_name);
+        nameText.setText(mGithubUsers.getFullName());
+
+        TextView companyText = findViewById(R.id.company_info);
+        companyText.setText(mGithubUsers.getCompany());
+
+        TextView bioText = findViewById(R.id.bio_data);
+        bioText.setText(mGithubUsers.getBio());
     }
 
     @Override
@@ -116,6 +113,12 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
 
     @VisibleForTesting
     public CountingIdlingResource getIdlingResourceInTest() {
-        return mDetailResource;
+        return singleUserPresenter.getCountingIdlingResource();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        singleUserPresenter.detachView();
     }
 }

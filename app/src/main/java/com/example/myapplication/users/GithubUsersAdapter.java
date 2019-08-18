@@ -1,4 +1,4 @@
-package com.example.myapplication.adapter;
+package com.example.myapplication.users;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.view.DetailActivity;
+import com.example.myapplication.profile.DetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,6 +57,8 @@ public class GithubUsersAdapter extends RecyclerView.Adapter<GithubUsersAdapter.
                         usersArray.get(viewHolder.getAdapterPosition()).getUsername());
                 intent.putExtra("AVATAR",
                         usersArray.get(viewHolder.getAdapterPosition()).getAvatar());
+                intent.putExtra("HTML_URL",
+                        usersArray.get(viewHolder.getAdapterPosition()).getHtmlUrl());
                 v.getContext().startActivity(intent);
             }
         });

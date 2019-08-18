@@ -7,7 +7,7 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.example.myapplication.model.GithubUsers;
-import com.example.myapplication.view.DetailActivity;
+import com.example.myapplication.profile.DetailActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,8 +18,9 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 
 @RunWith(AndroidJUnit4.class)
 public class DetailActivityTest {
@@ -46,7 +47,7 @@ public class DetailActivityTest {
 
     @Before
     public void stubUserName(){
-        GithubUsers githubUsers = new GithubUsers(userName, avatar, "ggogle.com", "",
+        GithubUsers githubUsers = new GithubUsers(userName, avatar, "ggogle.com", "htmlUrl", "",
                 "", "");
         Intent intent = new Intent();
         intent.putExtra("USERNAME", userName);
@@ -56,7 +57,8 @@ public class DetailActivityTest {
 
     @Test
     public void userScreeenDisplayed() {
-        onView(withId(R.id.username_info)).check(matches(withText(userName)));
+        registerIdlingResource();
+        onView(withId(R.id.username_info)).check(matches(isDisplayed()));
     }
 
     @Test

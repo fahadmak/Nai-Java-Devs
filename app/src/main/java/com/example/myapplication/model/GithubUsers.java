@@ -16,6 +16,10 @@ public class GithubUsers implements Parcelable {
     @SerializedName("url")
     private final String url;
 
+    @SerializedName("html_url")
+    private final String htmlUrl;
+
+
     @SerializedName("name")
     private final String fullName;
 
@@ -25,11 +29,12 @@ public class GithubUsers implements Parcelable {
     @SerializedName("bio")
     private final String bio;
 
-    public GithubUsers(String username, String avatar, String url, String fullName,
+    public GithubUsers(String username, String avatar, String url, String htmlUrl, String fullName,
                        String company, String bio) {
         this.username = username;
         this.avatar = avatar;
         this.url = url;
+        this.htmlUrl = htmlUrl;
         this.fullName = fullName;
         this.company = company;
         this.bio = bio;
@@ -42,6 +47,7 @@ public class GithubUsers implements Parcelable {
         fullName = in.readString();
         company = in.readString();
         bio = in.readString();
+        this.htmlUrl = in.readString();
     }
 
     public static final Creator<GithubUsers> CREATOR = new Creator<GithubUsers>() {
@@ -80,6 +86,10 @@ public class GithubUsers implements Parcelable {
         return bio;
     }
 
+    public String getHtmlUrl() {
+        return htmlUrl;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -93,5 +103,6 @@ public class GithubUsers implements Parcelable {
         dest.writeString(fullName);
         dest.writeString(company);
         dest.writeString(bio);
+        dest.writeString(htmlUrl);
     }
 }
