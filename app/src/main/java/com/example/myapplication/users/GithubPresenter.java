@@ -3,6 +3,7 @@ package com.example.myapplication.users;
 import com.example.myapplication.BasePresenter;
 import com.example.myapplication.model.GithubUsersResponse;
 import com.example.myapplication.service.GithubApiService;
+import com.example.myapplication.util.EspressoIdlingResource;
 
 import javax.inject.Inject;
 
@@ -29,12 +30,16 @@ public class GithubPresenter implements BasePresenter<AllUsersView> {
 
 
     public void fetchUsers() {
+        EspressoIdlingResource.increment();
         disposable = githubService.getAllUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((GithubUsersResponse githubUsersResponse) -> {
-                            usersView.hideLoading();
-                            usersView.displayUsers(githubUsersResponse.getUsers());
+                    usersView.hideLoading();
+                    usersView.displayUsers(githubUsersResponse.getUsers());
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                        EspressoIdlingResource.decrement(); // Set app as idle.
+                    }
                 }
                 );
     }

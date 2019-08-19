@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-
 import android.os.Parcel;
 
 import com.example.myapplication.model.GithubUsers;

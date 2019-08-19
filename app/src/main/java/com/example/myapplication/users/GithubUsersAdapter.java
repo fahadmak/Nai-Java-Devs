@@ -49,18 +49,15 @@ public class GithubUsersAdapter extends RecyclerView.Adapter<GithubUsersAdapter.
         ImageView imageView = viewHolder.view.findViewById(R.id.profile_image);
         Picasso.get()
                 .load(usersArray.get(viewHolder.getAdapterPosition()).getAvatar()).into(imageView);
-        viewHolder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), DetailActivity.class);
-                intent.putExtra("USERNAME",
-                        usersArray.get(viewHolder.getAdapterPosition()).getUsername());
-                intent.putExtra("AVATAR",
-                        usersArray.get(viewHolder.getAdapterPosition()).getAvatar());
-                intent.putExtra("HTML_URL",
-                        usersArray.get(viewHolder.getAdapterPosition()).getHtmlUrl());
-                v.getContext().startActivity(intent);
-            }
+        viewHolder.view.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            intent.putExtra("USERNAME",
+                    usersArray.get(viewHolder.getAdapterPosition()).getUsername());
+            intent.putExtra("AVATAR",
+                    usersArray.get(viewHolder.getAdapterPosition()).getAvatar());
+            intent.putExtra("HTML_URL",
+                    usersArray.get(viewHolder.getAdapterPosition()).getHtmlUrl());
+            v.getContext().startActivity(intent);
         });
 
     }

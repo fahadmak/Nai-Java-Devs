@@ -3,8 +3,6 @@ package com.example.myapplication.users;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.VisibleForTesting;
-import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +19,6 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerAppCompatActivity;
 
 import static com.example.myapplication.util.Constants.LIST_STATE;
-import static com.example.myapplication.util.Constants.MAIN_ACTIVITY_RESOURCE;
 
 public class MainActivity extends DaggerAppCompatActivity implements AllUsersView {
 
@@ -33,9 +30,6 @@ public class MainActivity extends DaggerAppCompatActivity implements AllUsersVie
     ProgressBar progressBar;
     private RecyclerView recyclerView;
     GridLayoutManager mGridLayoutManager;
-
-    CountingIdlingResource
-            mCountingIdlingResource = new CountingIdlingResource(MAIN_ACTIVITY_RESOURCE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +43,6 @@ public class MainActivity extends DaggerAppCompatActivity implements AllUsersVie
         recyclerView = findViewById(R.id.recycler_view);
 
         showLoading();
-
-        mCountingIdlingResource.increment();
-
         githubPresenter.attachView(this);
         githubPresenter.fetchUsers();
 
@@ -63,7 +54,6 @@ public class MainActivity extends DaggerAppCompatActivity implements AllUsersVie
 
         @Override
         public void onRefresh() {
-            mCountingIdlingResource.increment();
             githubPresenter.fetchUsers();
         }
     }
@@ -87,9 +77,6 @@ public class MainActivity extends DaggerAppCompatActivity implements AllUsersVie
         recyclerView.setHasFixedSize(true);
         GithubUsersAdapter githubUsersAdapter = new GithubUsersAdapter(githubUsers);
         recyclerView.setAdapter(githubUsersAdapter);
-        if (!mCountingIdlingResource.isIdleNow()) {
-            mCountingIdlingResource.decrement();
-        }
     }
 
     @Override
@@ -121,10 +108,6 @@ public class MainActivity extends DaggerAppCompatActivity implements AllUsersVie
         githubPresenter.detachView();
     }
 
-    @VisibleForTesting
-    public CountingIdlingResource getIdlingResourceInTest() {
-        return mCountingIdlingResource;
-    }
     @Override
     public void showLoading() {
         progressBar.setVisibility(View.VISIBLE);

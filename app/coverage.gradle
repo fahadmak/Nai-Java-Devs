@@ -8,7 +8,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*',
-                      '**/*Test*.*', 'android/**/*.*']
+                      '**/*Test*.*', 'android/**/*.*', '**/utils/*.*']
     def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java"
 
@@ -18,4 +18,5 @@ task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
             "jacoco/testDebugUnitTest.exec",
             "outputs/code-coverage/connected/*coverage.ec"
     ])
+
 }
