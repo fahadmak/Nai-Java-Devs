@@ -7,7 +7,7 @@ import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface GithubApi {
+public interface GithubApiService {
 
     @GET("search/users?q=type:User+location:Nairobi+language:JAVA"
             + "?access_token=7b2b9b477a57d613ea8852adbfb204bd64d7bd8d")
