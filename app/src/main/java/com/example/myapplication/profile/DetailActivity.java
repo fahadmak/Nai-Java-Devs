@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.idling.CountingIdlingResource;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -16,11 +14,17 @@ import com.example.myapplication.R;
 import com.example.myapplication.model.GithubUsers;
 import com.squareup.picasso.Picasso;
 
-public class DetailActivity extends AppCompatActivity implements SingleUserView {
+import javax.inject.Inject;
 
-    private static final String TAG = "frill";
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class DetailActivity extends DaggerAppCompatActivity implements SingleUserView {
+
     private GithubUsers mGithubUsers;
-    SingleUserPresenter singleUserPresenter = new SingleUserPresenter();
+
+    @Inject
+    SingleUserPresenter singleUserPresenter;
+
     String username = null;
     String avatar = null;
     String htmlUrl = null;
@@ -54,7 +58,6 @@ public class DetailActivity extends AppCompatActivity implements SingleUserView 
 
         setContentView(R.layout.activity_detail);
         singleUserPresenter.attachView(this);
-        Log.d(TAG, "onCreate: " + singleUserPresenter);
 
         if (savedInstanceState != null) {
             mGithubUsers = savedInstanceState.getParcelable("user");

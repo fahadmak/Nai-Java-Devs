@@ -2,7 +2,9 @@ package com.example.myapplication.users;
 
 import com.example.myapplication.BasePresenter;
 import com.example.myapplication.model.GithubUsersResponse;
-import com.example.myapplication.service.GithubService;
+import com.example.myapplication.service.GithubApiService;
+
+import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -10,7 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class GithubPresenter implements BasePresenter<AllUsersView> {
 
-    private final GithubService githubService;
+    private final GithubApiService githubService;
     private Disposable disposable;
 
     private AllUsersView usersView;
@@ -20,14 +22,14 @@ public class GithubPresenter implements BasePresenter<AllUsersView> {
         this.usersView = view;
     }
 
-
-    public GithubPresenter() {
-        this.githubService = new GithubService();
+    @Inject
+    public GithubPresenter(GithubApiService githubService) {
+        this.githubService = githubService;
     }
 
 
     public void fetchUsers() {
-        disposable = githubService.getAPI().getAllUsers()
+        disposable = githubService.getAllUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((GithubUsersResponse githubUsersResponse) -> {
