@@ -3,8 +3,6 @@ package com.example.myapplication.profile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.test.espresso.idling.CountingIdlingResource;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -78,7 +76,6 @@ public class DetailActivity extends DaggerAppCompatActivity implements SingleUse
 
     }
 
-
     @Override
     public void displaySingleUser(GithubUsers githubUsers) {
 
@@ -100,6 +97,7 @@ public class DetailActivity extends DaggerAppCompatActivity implements SingleUse
 
         TextView bioText = findViewById(R.id.bio_data);
         bioText.setText(mGithubUsers.getBio());
+
     }
 
     @Override
@@ -114,14 +112,10 @@ public class DetailActivity extends DaggerAppCompatActivity implements SingleUse
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-    @VisibleForTesting
-    public CountingIdlingResource getIdlingResourceInTest() {
-        return singleUserPresenter.getCountingIdlingResource();
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
         singleUserPresenter.detachView();
     }
+
 }

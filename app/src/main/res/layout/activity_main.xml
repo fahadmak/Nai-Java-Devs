@@ -14,5 +14,4 @@
         />
 
     <include layout="@layout/recycler_view"/>
-
 </RelativeLayout>

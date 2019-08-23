@@ -61,6 +61,9 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:" +
             "$globalConf.espressoVersion"
 
+    // Optional -- Mockito framework
+    def mockito_version ="3.0.0"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
 
 
     implementation 'com.squareup.okhttp3:okhttp:4.0.1'

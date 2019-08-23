@@ -2,12 +2,12 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.example.myapplication.model.GithubUsers;
 import com.example.myapplication.profile.DetailActivity;
+import com.example.myapplication.util.EspressoIdlingResource;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,20 +27,17 @@ public class DetailActivityTest {
 
     private final String userName = "k33ptoo";
     private final String avatar = "https://avatars0.githubusercontent.com/u/6637970?v=4";
-    private CountingIdlingResource countingIdlingResource;
 
-    public void registerIdlingResource(){
-        countingIdlingResource = mActivityTestRule.getActivity().getIdlingResourceInTest();
-        IdlingRegistry.getInstance().register(countingIdlingResource);
+    @Before
+    public void registerIdlingResource() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getIdlingResource());
     }
 
+    // Unregister your Idling Resource so it can be garbage collected and does not leak any memory
     @After
-    public void unregisterIdlingResource(){
-        if (countingIdlingResource != null){
-            IdlingRegistry.getInstance().unregister(countingIdlingResource);
-        }
+    public void unregisterIdlingResource() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getIdlingResource());
     }
-
     @Rule
     public IntentsTestRule<DetailActivity>
             mActivityTestRule = new IntentsTestRule<>(DetailActivity.class, true, false);
